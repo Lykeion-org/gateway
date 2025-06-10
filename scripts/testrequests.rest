@@ -1,0 +1,58 @@
+POST http://localhost:8080/referent HTTP/1.1
+content-type: application/json
+
+{
+    "enReference":"test from api",
+    "imageSource":"image test" 
+}
+
+###
+
+GET http://localhost:8080/referent/4bb329fc-e909-4883-a791-5bb522861838 HTTP/1.1
+
+###
+
+POST http://localhost:8080/symbol HTTP/1.1
+content-type: application/json
+
+{
+    "language": 2,
+    "symbolType": 1
+}
+
+###
+
+GET http://localhost:8080/symbol/83c9aec2-4940-4a5f-8afb-7744a399f654 HTTP/1.1
+
+###
+
+PUT http://localhost:8080/referent HTTP/1.1
+content-type: application/json
+
+{
+    "uid":"4bb329fc-e909-4883-a791-5bb522861838",
+    "enReference":"coffee",
+    "imageSource":"/coffee-image"
+}
+
+###
+
+POST http://localhost:8080/link-referent-symbol HTTP/1.1
+content-type: application/json
+
+{
+    "referentUid": "4bb329fc-e909-4883-a791-5bb522861838",
+    "symbolUid": "83c9aec2-4940-4a5f-8afb-7744a399f654"
+}
+
+###
+
+POST http://localhost:8080/link-referent-symbol HTTP/1.1
+content-type: application/json
+
+{
+    "referentUid": "4bb329fc-e909-4883-a791-5bb522861838",
+    "symbolUid": "80324ec0-18da-44f6-b692-49b3dedf6410"
+}
+
+###

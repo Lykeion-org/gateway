@@ -18,6 +18,24 @@ type CreateReferentRequest struct {
 	ImageSource string `json:"imageSource"`
 }
 
+type CreateSymbolRequest struct {
+	ReferentUid string `json:"referentUid"`
+    Language int `json:"language"`
+    SymbolType int `json:"symbolType"`
+}
+
+type LinkSymbolToReferentRequest struct {
+	SymbolUid string `json:"symbolUid"`
+	ReferentUid string `json:"referentUid"`
+}
+
+type Referent struct {
+	Uid string `json:"uid"`
+	EnReference string `json:"enReference"`
+	ImageSource string `json:"imageSource"`
+}
+
+
 
 func NewApi(grpcConn pb.LanguageServiceClient) *api {
 	r := gin.Default()
@@ -77,6 +95,71 @@ func (a *api) InitializeApi() {
 		}
 
 		res, err := a.grpcClient.CreateReferent(context.Background(), grpcReq); if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return }
+			
+		c.JSON(http.StatusOK, res)
+	})
+
+	a.engine.PUT("/referent", func(c *gin.Context) {
+		var req Referent
+		
+		if err := c.ShouldBindJSON(&req); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+
+		grpcReq := &pb.UpdateReferentRequest{
+			Referent: &pb.Referent{
+				Uid: req.Uid,
+				EnReference: req.EnReference,
+				ImageSource: req.ImageSource,
+			},
+		}
+
+		res, err := a.grpcClient.UpdateReferent(context.Background(), grpcReq); if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return }
+			
+		c.JSON(http.StatusOK, res)
+	})
+
+	a.engine.POST("/symbol", func(c *gin.Context) {
+		var req CreateSymbolRequest
+
+		if err := c.ShouldBindJSON(&req); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+
+		grpcReq := &pb.CreateSymbolRequest{
+			ReferentUid: req.ReferentUid,
+			Language:    pb.Language(req.Language),
+			SymbolType:  pb.SymbolType(req.SymbolType),
+		}
+
+		res, err := a.grpcClient.CreateSymbol(context.Background(), grpcReq); if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return }
+			
+		c.JSON(http.StatusOK, res)
+
+	})
+
+	a.engine.POST("/link-referent-symbol", func(c *gin.Context) {
+		var req LinkSymbolToReferentRequest
+
+		if err := c.ShouldBindJSON(&req); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+
+		grpcReq := &pb.LinkSymbolToReferentRequest{
+			ReferentUid: req.ReferentUid,
+			SymbolUid: req.SymbolUid,
+		}
+
+		res, err := a.grpcClient.LinkSymbolToReferent(context.Background(), grpcReq); if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 			return }
 			
