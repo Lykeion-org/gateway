@@ -1,0 +1,11 @@
+GET http://localhost:8080/v1/language/referent/16f17ea4-6948-40b0-93c6-9283cbf0982c HTTP/1.1
+content-type: application/json
+
+
+Okay, for my server:
+- user system 
+- security system
+- language system
+- admin system
+- learning system
+- message system

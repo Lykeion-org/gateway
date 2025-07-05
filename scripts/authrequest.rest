@@ -1,0 +1,24 @@
+POST http://localhost:8080/v1/auth/register HTTP/1.1
+content-type: application/json
+
+{
+    "username": "lykeion@test.nl",
+    "password": "T4!sIsaT3stP@ssw0rd"
+}
+###
+
+POST http://localhost:8080/v1/auth/login HTTP/1.1
+content-type: application/json
+
+{
+    "username": "lykeion@test.nl",
+    "password": "T4!sIsaT3stP@ssw0rd"
+}
+
+###
+
+GET http://localhost:8080/v1/user/ HTTP/1.1
+content-type: application/json
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyVWlkIjoiM2QxYWNmNGUtN2VkMy00NTljLTlmYzQtMzAyNWI3ZmMxZGEwIiwicm9sZSI6MSwic3ViIjoiM2QxYWNmNGUtN2VkMy00NTljLTlmYzQtMzAyNWI3ZmMxZGEwIiwiZXhwIjoxNzUxNzQ4Njk0LCJpYXQiOjE3NTE3NDc3OTR9.PbcByMsVbINPiRL-I9DxmcWer2btX_Y-bkX5SbSssjA
+
+
