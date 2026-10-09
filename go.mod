@@ -3,7 +3,7 @@ module github.com/Lykeion-org/gateway
 go 1.24.1
 
 require (
-	github.com/Lykeion-org/go-shared v0.0.0-00010101000000-000000000000
+	github.com/Lykeion-org/go-shared v0.0.0-20250705211659-99fb7d06aa32
 	github.com/gin-gonic/gin v1.10.1
 	google.golang.org/grpc v1.73.0
 )
@@ -37,5 +37,3 @@ require (
 	google.golang.org/protobuf v1.36.6 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
-
-replace github.com/Lykeion-org/go-shared => /Users/kevin/Repositories/lykeion/lib/go-shared
