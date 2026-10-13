@@ -7,6 +7,8 @@ import (
 	"github.com/Lykeion-org/gateway/internal/models"
 	"github.com/Lykeion-org/go-shared/pkg/grpc/generated/kosmos"
 	"github.com/gin-gonic/gin"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 
@@ -57,6 +59,14 @@ func (h *authHandler)Register(c *gin.Context) {
 	}
 
 	res, err := h.client.RegisterUser(c, &kosmos.RegisterUserRequest{Email: req.Username, Password: req.Password})
+	if status.Code(err) == codes.AlreadyExists {
+		respondWithError(c, http.StatusConflict, models.ErrConflict, "this email address is already registered")
+		return
+	}
+	if status.Code(err) == codes.InvalidArgument {
+		respondWithError(c, http.StatusBadRequest, models.ErrInvalidRequest, "an email address is required")
+		return
+	}
 	if err != nil {
 		slog.Debug("error getting response from kosmos", "error", err)
 		respondWithError(c, http.StatusInternalServerError, models.ErrInternal, "a server error while attempting to create a user")
