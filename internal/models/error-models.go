@@ -16,4 +16,5 @@ const (
 	ErrInternal				ErrorCode = "INTERNAL_SERVER_ERROR"
 	ErrUnauthorized			ErrorCode = "UNAUTHORIZED_REQUEST"
 	ErrForbidden			ErrorCode = "NO_PERMISSION"
+	ErrConflict				ErrorCode = "CONFLICT"
 )
