@@ -33,4 +33,8 @@ func AddLanguageRoutes(rg *gin.RouterGroup, h *handlers.LanguageHandler) {
 	language.POST("/link-referent-symbol", middleware.RequireAccessLevel(requiredEditLevel, h.Client), h.PostReferentSymbolLink)
 	language.POST("/link-symbol-word", middleware.RequireAccessLevel(requiredEditLevel, h.Client), h.PostSymbolWordLink)
 	language.POST("/set-word-as-lemma", middleware.RequireAccessLevel(requiredEditLevel, h.Client), h.PostWordLemmaLink)
+
+	// text analysis: queue a text, then review the words it found that are not in the dictionary yet
+	language.POST("/nlp/", middleware.RequireAccessLevel(requiredEditLevel, h.Client), h.PostAnalyzeText)
+	language.GET("/suggestions", middleware.RequireAccessLevel(requiredEditLevel, h.Client), h.GetWordSuggestions)
 }

@@ -74,16 +74,27 @@ type SetWordAsLemmaRequest struct {
 	WordUid 		string 			`json:"wordUid" binding:"required"`
 }
 
-type AnalyzeTextRequestInternal struct {
-	JobId 			string 			`json:"job_id"`
-	RequesterId 	string 			`json:"requester_id"`
-	Text 			string 			`json:"text"`
-}
-
 type AnalyzeTextRequestClient struct {
-	Text 			string 			`json:"text"`
+	Text 			string 			`json:"text" binding:"required"`
 }
 
 type AnalyzeTextResponse struct {
 	JobId 			string 			`json:"jobID"`
+}
+
+type WordSuggestion struct {
+	Uid 			string 			`json:"uid"`
+	Word 			string 			`json:"word"`
+	Lemma 			string 			`json:"lemma"`
+	Language 		int 			`json:"language"`
+	SymbolType 		int 			`json:"symbolType"`
+	WordType 		int 			`json:"wordType"`
+	Attributes 		WordAttributes 	`json:"attributes"`
+	JobId 			string 			`json:"jobID"`
+	RequesterUid 	string 			`json:"requesterUid"`
+}
+
+type WordSuggestionList struct {
+	Suggestions 	[]WordSuggestion 	`json:"suggestions"`
+	TotalCount 		int 				`json:"totalCount"`
 }

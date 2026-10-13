@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"github.com/Lykeion-org/gateway/internal/models"
+	"github.com/Lykeion-org/go-shared/pkg/grpc/generated/lexora"
 	"github.com/Lykeion-org/go-shared/pkg/grpc/generated/shared"
 )
 
@@ -84,24 +85,42 @@ func ProtoToWord(req *shared.Word) *models.Word {
 	}
 
 	if req.Attributes != nil {
-		word.Attributes = models.WordAttributes{
-			Gender:         int(req.GetAttributes().GetGender()),
-			Number:         int(req.GetAttributes().GetNumber()),
-			Unique:         req.GetAttributes().GetUnique(),
-			Diminutive:     req.GetAttributes().GetDiminutive(),
-			Case:           int(req.GetAttributes().GetCase()),
-			Mood:           int(req.GetAttributes().GetMood()),
-			Tense:          int(req.GetAttributes().GetTense()),
-			Aspect:         int(req.GetAttributes().GetAspect()),
-			Person:         int(req.GetAttributes().GetPerson()),
-			DirectObject:   req.GetAttributes().GetDirectObject(),
-			IndirectObject: req.GetAttributes().GetIndirectObject(),
-			Valency:        int(req.GetAttributes().GetValency()),
-			Reflexive:      req.GetAttributes().GetReflexive(),
-		}
+		word.Attributes = ProtoToWordAttributes(req.GetAttributes())
 	}
 
 	return word
+}
+
+func ProtoToWordAttributes(a *shared.WordAttributes) models.WordAttributes {
+	return models.WordAttributes{
+		Gender:         int(a.GetGender()),
+		Number:         int(a.GetNumber()),
+		Unique:         a.GetUnique(),
+		Diminutive:     a.GetDiminutive(),
+		Case:           int(a.GetCase()),
+		Mood:           int(a.GetMood()),
+		Tense:          int(a.GetTense()),
+		Aspect:         int(a.GetAspect()),
+		Person:         int(a.GetPerson()),
+		DirectObject:   a.GetDirectObject(),
+		IndirectObject: a.GetIndirectObject(),
+		Valency:        int(a.GetValency()),
+		Reflexive:      a.GetReflexive(),
+	}
+}
+
+func ProtoToWordSuggestion(s *lexora.WordSuggestion) models.WordSuggestion {
+	return models.WordSuggestion{
+		Uid:          s.GetUid(),
+		Word:         s.GetWord(),
+		Lemma:        s.GetLemma(),
+		Language:     int(s.GetLanguage()),
+		SymbolType:   int(s.GetSymbolType()),
+		WordType:     int(s.GetWordType()),
+		Attributes:   ProtoToWordAttributes(s.GetAttributes()),
+		JobId:        s.GetJobUid(),
+		RequesterUid: s.GetRequesterUid(),
+	}
 }
 
 func ProtoToWordList(words []*shared.Word) []models.Word {
