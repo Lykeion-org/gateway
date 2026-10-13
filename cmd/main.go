@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"log/slog"
+	"net/http"
 
 	"github.com/Lykeion-org/gateway/internal/controllers"
 	"github.com/Lykeion-org/gateway/internal/grpc"
@@ -37,6 +38,9 @@ func main(){
 
 	//Adding routes
 	v1 := router.Group("/v1")
+	v1.GET("/ping", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{"response": "Pong"})
+	})
 	controllers.AddAuthRoutes(v1, authHandlerV1)
 	controllers.AddUserGroups(v1, userHandlerV1)
 	controllers.AddLanguageRoutes(v1, languageHandlerV1)

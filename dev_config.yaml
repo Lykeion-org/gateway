@@ -1,0 +1,3 @@
+# Local development settings, used by `make run-dev` (loaded from ../dev_config.yaml)
+REST_API_port: ":8080"
+orchestrator_grpc_target: "localhost:44000"

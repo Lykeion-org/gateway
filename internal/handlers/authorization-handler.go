@@ -33,12 +33,14 @@ func (h *authHandler)Login(c *gin.Context) {
 	if err != nil {
 		slog.Debug("error getting response from kosmos", "error", err)
 		respondWithError(c, http.StatusBadRequest, models.ErrInvalidRequest, "invalid request while logging in")
+		return
 	}
 
 	res, err := h.client.LoginUser(c, &kosmos.LoginUserRequest{Email: req.Username, Password: req.Password})
 	if err != nil {
 		slog.Debug("error getting response from kosmos", "error", err)
 		respondWithError(c, http.StatusUnauthorized, models.ErrUnauthorized, "a server error occured while attempting to login")
+		return
 	}
 
 	c.JSON(http.StatusOK, &models.TokenResponse{AccessToken: res.AccessToken, RefreshToken: res.RefreshToken})
@@ -51,12 +53,14 @@ func (h *authHandler)Register(c *gin.Context) {
 	if err != nil {
 		slog.Debug("error getting response from kosmos", "error", err)
 		respondWithError(c, http.StatusBadRequest, models.ErrInvalidRequest, "invalid request while registering")
+		return
 	}
 
 	res, err := h.client.RegisterUser(c, &kosmos.RegisterUserRequest{Email: req.Username, Password: req.Password})
 	if err != nil {
 		slog.Debug("error getting response from kosmos", "error", err)
 		respondWithError(c, http.StatusInternalServerError, models.ErrInternal, "a server error while attempting to create a user")
+		return
 	}
 
 	c.JSON(http.StatusOK, &models.TokenResponse{AccessToken: res.AccessToken, RefreshToken: res.RefreshToken})
