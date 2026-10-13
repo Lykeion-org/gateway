@@ -3,7 +3,7 @@ module github.com/Lykeion-org/gateway
 go 1.24.1
 
 require (
-	github.com/Lykeion-org/go-shared v0.0.0-20250705211659-99fb7d06aa32
+	github.com/Lykeion-org/go-shared v0.0.0-20261013124543-99548d766db2
 	github.com/gin-gonic/gin v1.10.1
 	google.golang.org/grpc v1.73.0
 )
